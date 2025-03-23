@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Modal } from "bootstrap";
-import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
 import ReactLoading from 'react-loading';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -81,13 +80,12 @@ export default function ProductsPage(){
                             </td>
                             <td>
                                 <div className="btn-group btn-group-sm">
-                                <button
-                                    // onClick={() => handleSeeMore(product)}
-                                    type="button"
+                                <Link
+                                    to={"/products/${product.id}"}
                                     className="btn btn-outline-secondary"
                                 >
                                     查看更多
-                                </button>
+                                </Link>
                                 <button type="button" className="btn btn-danger d-flex align-items-center gap-2"
                                         onClick={()=>addCartItem(product.id,1)}
                                         disabled={isLoading}
