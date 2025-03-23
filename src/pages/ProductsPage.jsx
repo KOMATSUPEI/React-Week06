@@ -104,6 +104,10 @@ export default function ProductsPage(){
                     ))}
                     </tbody>
                 </table>
+                <div className="d-flex justify-content-center align-items-center gap-5">
+                    <Link to="/"><button className="btn btn-success">回首頁</button></Link>
+                    <Link to="/cart"><button className="btn btn-success">回購物車</button></Link>
+                </div>
             </div>
             {/* Loading 模板 */}
             {isScreenLoading && (

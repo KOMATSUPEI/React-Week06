@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from 'react-loading';
+import { Link } from "react-router-dom"
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -99,6 +100,7 @@ export default function ProductDetailPage(){
                     </div>
                 </div>
             </div>
+            <Link to="/products"><button className="btn btn-success">回產品列表</button></Link>
         </div>
         {/* Loading 模板 */}
         {isScreenLoading && (
