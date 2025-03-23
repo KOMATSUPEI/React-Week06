@@ -149,9 +149,7 @@ function App() {
 
     //提交表單
     const onSubmit=handleSubmit((data)=>{
-
       const {message,...user}=data;//解構出需要的變數
-
       const userInfo={
         data:{
           user,
