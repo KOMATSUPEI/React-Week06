@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import ReactLoading from 'react-loading';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -9,11 +10,12 @@ export default function ProductDetailPage(){
 
     const [product,setProduct]=useState({});
     const [qtySelect,setQtySelect]=useState(1);
+    const [isLoading,setIsLoading]=useState(false);// 局部Loading
     const { id: product_id } = useParams()
 
     //取得產品
     useEffect(() => {
-        console.log("Product ID from useParams:", product_id);
+        // console.log("Product ID from useParams:", product_id);
         const getProduct = async () => {
         // setIsScreenLoading(true);
         try {
@@ -27,6 +29,27 @@ export default function ProductDetailPage(){
         getProduct();
         // getCart();
     }, []);
+
+     // 加入購物車
+    const addCartItem=async(product_id,qty)=>{
+        setIsLoading(true);
+        try{
+        await axios.post(`${BASE_URL}/v2/api/${API_PATH}/cart`,{
+            data:{
+            product_id,
+            qty:Number(qty)
+            }
+        });
+        // getCart();
+        }catch(err){
+        alert("加入購物車失敗");
+        console.log(err);
+        }finally{
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 3000);
+        }
+    };
 
     return (
         <div className="container mt-5">
@@ -55,9 +78,18 @@ export default function ProductDetailPage(){
                             </option>
                         ))}
                         </select>
-                        <button type="button" className="btn btn-primary">
-                        加入購物車
-                        </button>
+                            <button type="button" 
+                                    className="btn btn-primary d-flex align-items-center gap-2" 
+                                    onClick={()=>addCartItem(product_id,qtySelect)}
+                                    disabled={isLoading}>
+                            <span>加入購物車</span>
+                            {isLoading && ( <ReactLoading
+                                type={"spin"}
+                                color={"#000"}
+                                height={"1.5rem"}
+                                width={"1.5rem"}
+                            />)}
+                            </button>
                     </div>
                 </div>
             </div>
