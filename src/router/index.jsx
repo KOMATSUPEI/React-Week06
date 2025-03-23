@@ -1,10 +1,11 @@
 import { createHashRouter } from "react-router-dom";
+import FrontLayout from "../layouts/FrontLayout";
 
 const router=createHashRouter([
     {
         path: "/",
-        element: <h1>首頁</h1>
+        element: <FrontLayout/>
     }
-])
+]);
 
 export default router;
