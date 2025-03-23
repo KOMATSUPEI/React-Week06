@@ -10,6 +10,7 @@ export default function ProductDetailPage(){
 
     const [product,setProduct]=useState({});
     const [qtySelect,setQtySelect]=useState(1);
+    const [isScreenLoading,setIsScreenLoading]=useState(false); // 整體Loading
     const [isLoading,setIsLoading]=useState(false);// 局部Loading
     const { id: product_id } = useParams()
 
@@ -17,15 +18,18 @@ export default function ProductDetailPage(){
     useEffect(() => {
         // console.log("Product ID from useParams:", product_id);
         const getProduct = async () => {
-        // setIsScreenLoading(true);
+        setIsScreenLoading(true);
         try {
             const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/product/${product_id}`);
             setProduct(res.data.product);
         } catch (error) {
             alert("取得產品失敗");
             console.log(error);
-        }
-        };
+        }finally{
+            setTimeout(() => {
+                setIsScreenLoading(false);
+            }, 3000);
+        }};
         getProduct();
         // getCart();
     }, []);
@@ -45,13 +49,15 @@ export default function ProductDetailPage(){
         alert("加入購物車失敗");
         console.log(err);
         }finally{
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 3000);
         }
     };
 
     return (
+        <>
+        {/* 產品詳細說明 */}
         <div className="container mt-5">
             <div className="row">
                 <div className="col-6">
@@ -94,5 +100,19 @@ export default function ProductDetailPage(){
                 </div>
             </div>
         </div>
+        {/* Loading 模板 */}
+        {isScreenLoading && (
+        <div className="d-flex justify-content-center align-items-center"
+            style={{
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(105, 105, 105, 0.3)",
+            zIndex: 999,
+            }}
+        >
+            <ReactLoading type="spin" color="black" width="4rem" height="4rem" />
+        </div>
+        )}
+        </>
     )
 };
